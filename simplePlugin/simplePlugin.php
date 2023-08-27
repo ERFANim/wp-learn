@@ -39,6 +39,7 @@ if(is_admin()){
 }else{
     include PLUGIN_INC.'user/menus.php';
 }
+
 //or include optimize file directly 
 include PLUGIN_DIR.'/inc/common/public.php';
 
