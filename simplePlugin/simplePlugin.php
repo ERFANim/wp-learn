@@ -10,3 +10,6 @@ Domain Path: /languages/
 Version: 1.0.0
 */
 
+define('PLUGIN_DIR',plugin_dir_path(__FILE__));
+
+define('PLUGIN_URL',plugin_dir_url(__FILE__));
