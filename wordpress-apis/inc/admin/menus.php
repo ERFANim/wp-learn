@@ -24,10 +24,22 @@ function wp_apis_register_menus()
 }
 
 function wp_apis_main_menu_handler(){
+
     if(isset($_POST['saveSettings']))
     {
-        var_dump($_POST);
+        //$is_plugin_active = isset($_POST['is_plugin_active']) ? 1 : 0 ;
+        
+        //add_option('wp_apis_is_active',$is_plugin_active);
+        
+        if(isset($_POST['is_plugin_active'])){
+            update_option('wp_apis_is_active',1);
+        }else{
+            delete_option('wp_apis_is_active');
+        }
     }
+    
+    $current_plugin_status = get_option('wp_apis_is_active',0);
+
     include WP_APIS_TPL.'admin/menus/main.php';
 }
 
