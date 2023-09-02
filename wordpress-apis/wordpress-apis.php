@@ -31,4 +31,5 @@ function wp_apis_plugin_deactivation()
 if(is_admin())
 {
     include WP_APIS_INC.'admin/menus.php';
+    include WP_APIS_INC.'admin/metaboxes.php';
 }
