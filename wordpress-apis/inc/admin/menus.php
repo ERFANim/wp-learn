@@ -6,8 +6,8 @@ add_action('admin_menu','wp_apis_register_menus');
 function wp_apis_register_menus()
 {
     add_menu_page(
-        'تنظیمات پلاگین',
-        'تنظیمات پلاگین',
+        'پلاگین سفارشی',
+        'پلاگین سفارشی',
         'manage_options',
         'wp_apis_admin',
         'wp_apis_main_menu_handler'
@@ -15,8 +15,8 @@ function wp_apis_register_menus()
 
     add_submenu_page(
         'wp_apis_admin',
-        'عمومی',
-        'عمومی',
+        'تنظیمات',
+        'تنظیمات',
         'manage_options',
         'wp_apis_general',
         'wp_apis_general_page',
@@ -25,6 +25,74 @@ function wp_apis_register_menus()
 
 function wp_apis_main_menu_handler(){
 
+    global $wpdb;
+
+if(isset($_GET['action']))
+{
+
+    $action = $_GET['action'];
+
+    if($action == "delete")
+    {
+        $item = intval($_GET['item']);
+
+        if($item>0)
+        {
+            $wpdb -> delete($wpdb->prefix.'sample',['ID' => $item]);  
+
+            $samples = $wpdb -> get_results("SELECT * FROM {$wpdb->prefix}sample");
+
+            include WP_APIS_TPL.'admin/menus/main.php';
+        }
+
+
+    }
+
+    elseif($action == "add")
+    {
+        if(isset($_POST['SaveData']))
+        {
+            
+            $wpdb -> insert($wpdb->prefix.'sample',[
+                'FirstName' => $_POST['FirstName'],
+                'LastName' => $_POST['LastName'],
+                'Mobile' => $_POST['Mobile']
+            ]);
+        }
+
+        include WP_APIS_TPL.'admin/menus/add.php';
+    }
+
+    elseif($action == "update")
+    {
+        $item = intval($_GET['item']);
+
+        if(isset($_POST['updatedata']) & $item>0)
+        {
+
+            $wpdb -> update($wpdb->prefix.'sample',[
+                'FirstName' => $_POST['FirstName'],
+                'LastName' => $_POST['LastName'],
+                'Mobile' => $_POST['Mobile']],
+                ['ID' => $item]);
+            
+        }
+        $itemsample = $wpdb -> get_results("SELECT * FROM {$wpdb->prefix}sample where ID=$item LIMIT 1");
+        include WP_APIS_TPL.'admin/menus/update.php';
+       
+    }
+}else
+{    
+    $samples = $wpdb -> get_results("SELECT * FROM {$wpdb->prefix}sample");
+
+    include WP_APIS_TPL.'admin/menus/main.php';
+}
+}
+
+function wp_apis_general_page(){
+
+ 
+    
     if(isset($_POST['saveSettings']))
     {
         //$is_plugin_active = isset($_POST['is_plugin_active']) ? 1 : 0 ;
@@ -39,11 +107,6 @@ function wp_apis_main_menu_handler(){
     }
     
     $current_plugin_status = get_option('wp_apis_is_active',0);
-
-    include WP_APIS_TPL.'admin/menus/main.php';
-}
-
-function wp_apis_general_page(){
 
     include WP_APIS_TPL.'admin/menus/general.php';
 }

@@ -1,15 +1,37 @@
 <div class="warp">
-    <h1>تنظیمات پلاگین</h1>
+    <h1>لیست اطلاعات</h1>
 
-    <form action="" method="post">
+        <a href="<?php echo add_query_arg(['action'=>'add']); ?>" class="button-primary">ثبت داده جدید</a>
+ 
+        <table class="widefat">
+            <thead>
+                <tr>
+                    <th>شناسه</th>
+                    <th>نام</th>
+                    <th>نام خانوادگی</th>
+                    <th>موبایل</th>
+                    <th>عملیات</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+    
+                <?php foreach($samples as $sample): ?>
+                    <tr>
+                        <td><?php echo $sample->ID; ?></td>
+                        <td><?php echo $sample->FirstName; ?></td>
+                        <td><?php echo $sample->LastName; ?></td>
+                        <td><?php echo $sample->Mobile; ?></td>
+                        <td>
+                            <a href="<?php echo add_query_arg(['action' => 'delete','item' => $sample->ID]); ?>">حذف کردن</a>
+                        </td>
+                        <td>
+                            <a href="<?php echo add_query_arg(['action' => 'update','item' => $sample->ID]); ?>">ویرایش</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
 
-        <label for="is_plugin_active">
-            <input name="is_plugin_active" type="checkbox" id="is_plugin_active"
-            <?php echo isset($current_plugin_status) && intval($current_plugin_status)>0 ? 'checked' : ''; ?>>
-            فعال بودن پلاگین
-        </label>
-        <div>
-        <button class="button-primary" type="submit" name="saveSettings">ذخیره سازی</button>
-        </div>    
-    </form>
+            </tbody>
+        </table>
+
 </div>
