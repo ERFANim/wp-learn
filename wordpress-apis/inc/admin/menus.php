@@ -15,12 +15,22 @@ function wp_apis_register_menus()
 
     add_submenu_page(
         'wp_apis_admin',
+        'کاربران',
+        'کاربران',
+        'manage_options',
+        'wp_apis_users',
+        'wp_apis_users_page',
+    );
+
+    add_submenu_page(
+        'wp_apis_admin',
         'تنظیمات',
         'تنظیمات',
         'manage_options',
         'wp_apis_general',
         'wp_apis_general_page',
     );
+
 }
 
 function wp_apis_main_menu_handler(){
@@ -109,4 +119,55 @@ function wp_apis_general_page(){
     $current_plugin_status = get_option('wp_apis_is_active',0);
 
     include WP_APIS_TPL.'admin/menus/general.php';
+}
+
+function wp_apis_users_page()
+{
+
+    global $wpdb;
+    $users = $wpdb->get_results("SELECT ID,user_email,display_name FROM {$wpdb->users}");
+
+    if(isset($_GET['action']) && $_GET['action'] == 'edit')
+    {
+        $userID = intval($_GET['id']);
+        
+        if(isset($_POST['SaveUserDataInfo'])){
+
+            $mobile = $_POST['mobile'];
+            $wallet = $_POST['wallet'];
+
+            if(!empty($mobile))
+            {
+                update_user_meta($userID,'mobile',$mobile);
+            }
+
+            if(!empty($wallet))
+            {
+                update_user_meta($userID,'wallet',$wallet);
+            }
+
+        }
+
+        
+        $mobile = get_user_meta($userID,'mobile',true);
+        $wallet = get_user_meta($userID,'wallet',true);
+
+
+        include WP_APIS_TPL.'admin/menus/users/edit.php';
+        return;
+    }
+
+    if(isset($_GET['action']) && $_GET['action'] == 'RemoveMobile')
+    {
+        $userID = intval($_GET['id']);
+        delete_user_meta($userID,'mobile');
+    }
+
+    if(isset($_GET['action']) && $_GET['action'] == 'RemoveWallet')
+    {
+        $userID = intval($_GET['id']);
+        delete_user_meta($userID,'wallet');
+    }
+
+    include WP_APIS_TPL.'admin/menus/users/users.php';
 }
