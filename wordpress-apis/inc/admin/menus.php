@@ -35,6 +35,8 @@ function wp_apis_register_menus()
 
 function wp_apis_main_menu_handler(){
 
+    //if(current_user_can('read')){}
+
     global $wpdb;
 
 if(isset($_GET['action']))
@@ -123,6 +125,31 @@ function wp_apis_general_page(){
 
 function wp_apis_users_page()
 {
+    //  $NewPassword = wp_generate_password();
+    //  $UserEmail = "useremail7777@mail.com";
+    //  $UserEmailData = explode('@',$UserEmail);
+    // wp_create_user($UserEmailData[0],$NewPassword,$UserEmail);
+
+    // $new_user_result = wp_insert_user(
+    //     [
+    //         'user_pass' => $NewPassword,
+    //         'user_email' => $UserEmail,
+    //         'user_login' => $UserEmailData[0],
+    //         'display_name' => 'یک کاربر جدید'
+    //     ]
+    // );
+    
+    // if(!is_wp_error($new_user_result)){}
+
+    // wp_update_user(
+    //     [
+    //         'ID' => 4,
+    //         'display_name' => 'یک کاربر ویرایش شده'
+    //     ]
+    // );
+
+    // wp_delete_user( 4 , 1);
+
 
     global $wpdb;
     $users = $wpdb->get_results("SELECT ID,user_email,display_name FROM {$wpdb->users}");
