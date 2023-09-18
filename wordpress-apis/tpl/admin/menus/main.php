@@ -2,7 +2,7 @@
     <h1>لیست اطلاعات</h1>
 
         <a href="<?php echo add_query_arg(['action'=>'add']); ?>" class="button-primary">ثبت داده جدید</a>
- 
+        <button id="sendAjaxRequest" class="button">SendAjaxRequest</button>        
         <table class="widefat">
             <thead>
                 <tr>

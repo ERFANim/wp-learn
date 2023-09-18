@@ -46,6 +46,9 @@ if(is_admin())
     include WP_APIS_INC.'admin/metaboxes.php';
 }
 
+
+include WP_APIS_INC.'ajax.php';
+
 function wpapis_register_styles()
 {
     wp_register_style('wpapis_main_style' , WP_APIS_URL . 'assets/css/main.css');
@@ -53,11 +56,11 @@ function wpapis_register_styles()
 
     if(is_admin())
     {
-    wp_register_script('wpapis-admin-script',WP_APIS_URL.'assets/js/wpapis-admin.js');
+    wp_register_script('wpapis-admin-script',WP_APIS_URL.'assets/js/wpapis-admin.js',['jquery'],false,true);
     wp_enqueue_script('wpapis-admin-script');
     }else
     {
-    wp_register_script('wpapis-front-script',WP_APIS_URL.'assets/js/wpapis.js',['jquery']);
+    wp_register_script('wpapis-front-script',WP_APIS_URL.'assets/js/wpapis.js',['jquery'],false,true);
     wp_enqueue_script('wpapis-front-script');
     }
 }
